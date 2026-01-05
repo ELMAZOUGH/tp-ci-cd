@@ -7,8 +7,8 @@ class TestApp(unittest.TestCase):
 
 
     def test_add(self):
-        self.assertEqual(add(2, 3), 5) [cite: 22, 23]
-        self.assertEqual(add(-1, 1), 0) [cite: 24]
+        self.assertEqual(add(2, 3), 5)
+        self.assertEqual(add(-1, 1), 0) 
     
     # Nouveaux cas de tests pour améliorer la couverture
     def test_add_negative(self):
