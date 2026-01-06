@@ -8,8 +8,7 @@ jobs:
       - name: Récupérer le code
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  #  : Permet à  de lire tout l'hitorique
-
+          fetch-depth: 0  
       - name: Installer Python
         uses: actions/setup-python@v4
         with:
