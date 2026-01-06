@@ -7,6 +7,8 @@ jobs:
     steps:
       - name: Récupérer le code
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Recommandé pour une meilleure analyse Sonar
 
       - name: Installer Python
         uses: actions/setup-python@v4
@@ -18,6 +20,18 @@ jobs:
 
       - name: Exécuter les tests
         run: python -m unittest test_app.py
+
+      # Ajout de l'étape SonarCloud selon le TP 3
+      - name: Analyse du code avec SonarCloud
+        uses: SonarSource/sonarcloud-github-action@v2
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Nécessaire pour l'analyse
+        with:
+          args: >
+            -Dsonar.organization=elmazoughi
+            -Dsonar.projectKey=tp-ci-cd
+            -Dsonar.sources=.
 
   deploy:
     needs: test
