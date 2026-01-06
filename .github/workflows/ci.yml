@@ -1,29 +1,59 @@
-name: SonarCloud Analysis
+name: CI/CD Pipeline
 
-on:
-  push:
-    branches:
-      - main
-      - master
-  pull_request:
-    types: [opened, synchronize, reopened]
+on: [push]
 
 jobs:
-  build:
-    name: Build and Analyze
+  # -----------------------------------------------------------
+  # JOB 1 : Exécution des tests Python
+  # -----------------------------------------------------------
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v4
+
+      - name: Installer Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.x
+
+      - name: Installer les dépendances
+        run: pip install -r requirements.txt
+
+      - name: Exécuter les tests
+        run: python -m unittest test_app.py
+
+  # -----------------------------------------------------------
+  # JOB 2 : Analyse de qualité avec SonarCloud
+  # -----------------------------------------------------------
+  sonarcloud:
+    name: SonarCloud Analysis
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          fetch-depth: 0  # Important pour SonarCloud
 
-      - name: Analyse du code avec SonarCloud
+      - name: Analyse du code
         uses: SonarSource/sonarcloud-github-action@v2
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Nécessaire pour commenter les PRs
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
             -Dsonar.organization=elmazoughi
-            -Dsonar.projectKey=elmazoughi_tp-ci-cd
+            -Dsonar.projectKey=tp-ci-cd
             -Dsonar.sources=.
+
+  # -----------------------------------------------------------
+  # JOB 3 : Déploiement sur Render (URL en clair)
+  # -----------------------------------------------------------
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    # Condition : Ne déployer que si c'est la branche "main"
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Déclencher le déploiement sur Render
+        run: |
+          curl -X POST "https://api.render.com/deploy/srv-d5e5noje5dus73erg11g?key=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"
