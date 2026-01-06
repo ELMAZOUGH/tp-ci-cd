@@ -42,7 +42,7 @@ jobs:
         with:
           args: >
             -Dsonar.organization=elmazoughi
-            -Dsonar.projectKey=elmazoughi_tp-ci-cd
+            -Dsonar.projectKey=tp-ci-cd
             -Dsonar.sources=.
 
   # ------------------------------------------------------------------
