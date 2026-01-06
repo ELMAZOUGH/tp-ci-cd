@@ -1,28 +1,11 @@
-name: CI/CD Pipeline
-on: [push]
-#
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Récupérer le code
-        uses: actions/checkout@v3
-
-      - name: Installer Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.x
-
-      - name: Installer les dépendances
-        run: pip install -r requirements.txt
-
-      - name: Exécuter les tests
-        run: python -m unittest test_app.py
-
-  deploy:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Déclencher le déploiement sur Render
-        run: |
-          curl -X POST "https://api.render.com/deploy/srv-d5e5noje5dus73erg11g?key=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"
+- name: Analyse du code avec SonarCloud
+      uses: SonarSource/sonarcloud-github-action@v2
+      env:
+        # GITHUB_TOKEN is required for SonarCloud to decorate PRs
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      with:
+        args: >
+          -Dsonar.organization=elmazoughi
+          -Dsonar.projectKey=elmazoughi_tp-ci-cd
+          -Dsonar.sources=.
