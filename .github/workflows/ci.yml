@@ -19,6 +19,17 @@ jobs:
       - name: Exécuter les tests
         run: python -m unittest test_app.py
 
+      - name: Analyse du code avec SonarCloud
+        uses: SonarSource/sonarcloud-github-action@v2
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          # Note: GITHUB_TOKEN is usually required here by the action, 
+          # but I have excluded it to strictly follow your snippet.
+        with:
+          args: >
+            -Dsonar.organization=VOTRE_ORG
+            -Dsonar.projectKey
+
   deploy:
     needs: test
     runs-on: ubuntu-latest
