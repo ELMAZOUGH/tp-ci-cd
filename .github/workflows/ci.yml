@@ -1,11 +1,9 @@
-- name: Analyse du code avec SonarCloud
-      uses: SonarSource/sonarcloud-github-action@v2
-      env:
-        # GITHUB_TOKEN is required for SonarCloud to decorate PRs
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      with:
-        args: >
-          -Dsonar.organization=elmazoughi
-          -Dsonar.projectKey=elmazoughi_tp-ci-cd
-          -Dsonar.sources=.
+name: Analyse du code avec SonarCloud
+ uses: SonarSource/sonarcloud-github-action@v2
+ env:
+SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+ with:
+args: >
+ -Dsonar.organization=elmazoughi
+ -Dsonar.projectKey=elmazoughi_tp-ci-cd
+ -Dsonar.sources=
