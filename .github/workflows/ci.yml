@@ -21,7 +21,7 @@ jobs:
         run: python -m unittest test_app.py
 
       - name: Analyse du code avec SonarCloud
-        uses: SonarSource/sonarcloud-github-action@ba3875e5927514a68297072528771960136209a3
+        uses: SonarSource/sonarcloud-github-action@v2
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
