@@ -26,11 +26,11 @@ jobs:
         uses: SonarSource/sonarcloud-github-action@v2
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Nécessaire pour l'analyse
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Nécessaire pour l'analse
         with:
           args: >
             -Dsonar.organization=elmazoughi
-            -Dsonar.projectKey=tp-ci-cd
+            -Dsonar.projectKey=elmazoughi_tp-ci-cd
             -Dsonar.sources=.
 
   deploy:
